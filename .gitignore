@@ -1,0 +1,6 @@
+# Flatpak stuff
+.flatpak-builder/
+build/
+
+# VS Code
+.vscode/

@@ -1,0 +1,62 @@
+{
+    "app-id": "dev.bdavidson.HashThis",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "18.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "hashthis",
+    "modules": [
+        {
+            "name": "golang-bootstrap",
+            "buildsystem": "simple",
+            "build-commands": [
+                "cd src && GOROOT=/app/golang-bootstrap CGO_ENABLED=0 ./make.bash",
+                "./installgo.bash",
+                "ls /app"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dl.google.com/go/go1.4-bootstrap-20171003.tar.gz",
+                    "sha256": "f4ff5b5eb3a3cae1c993723f3eab519c5bae18866b5e5f96fe1102f0cb5c3e52"
+                },
+                {
+                    "type": "file",
+                    "path": "installgo.bash"
+                }
+            ]
+        },
+        {
+            "name": "golang",
+            "buildsystem": "simple",
+            "build-commands": [
+                "ls /app",
+                "cd src && GOROOT_BOOTSTRAP=/app/usr/local/go GOROOT=/app/golang ./all.bash"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dl.google.com/go/go1.12.4.src.tar.gz",
+                    "sha256": "4affc3e610cd8182c47abbc5b0c0e4e3c6a2b945b55aaa2ba952964ad9df1467"
+                },
+                {
+                    "type": "file",
+                    "path": "installgo.bash"
+                }
+            ]
+        },
+        {
+            "name": "hashthis",
+            "buildsystem": "simple",
+            "build-commands": [
+                "PATH=$PATH:/app/golang go build",
+                "install -D hashthis /app/bin/hashthis"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "main.go"
+                }
+            ]
+        }
+    ]
+}
